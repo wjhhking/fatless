@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Exercise {
   final String title;
   final String description;
@@ -9,6 +11,10 @@ class Exercise {
   final String imagePath;
   final int caloriesBurned;
   final List<String> equipment;
+  final String author;
+  final String views;
+  final String uploadTime;
+  final Color backgroundColor;
 
   Exercise({
     required this.title,
@@ -21,6 +27,10 @@ class Exercise {
     this.imagePath = '',
     this.caloriesBurned = 0,
     this.equipment = const [],
+    this.author = '',
+    this.views = '',
+    this.uploadTime = '',
+    this.backgroundColor = const Color(0xFFE3F2FD),
   });
 
   // Get duration as integer for calculations
@@ -47,80 +57,81 @@ class Exercise {
 class ExerciseData {
   static final List<Exercise> popularExercises = [
     Exercise(
-      title: 'Morning Yoga Flow',
-      description: 'Gentle stretches to start your day',
-      duration: '15 min',
+      title: '15 MIN OLDIES DANCE WORKOUT - burn calories to',
+      description: 'Pamela Reif',
+      duration: '14:05',
       difficulty: 'Beginner',
-      category: 'Yoga',
+      category: 'Dance',
       videoUrl: 'placeholder',
-      caloriesBurned: 80,
+      caloriesBurned: 150,
+      imagePath: 'assets/images/exercise/diet_dance.png',
+      author: 'Pamela Reif ✓',
+      views: '9.2M views',
+      uploadTime: '5 years ago',
+      backgroundColor: Color(0xFFE8F5E8),
       steps: [
-        'Warm-up breathing (2 minutes)',
-        'Sun salutation sequence (5 minutes)',
-        'Standing poses (5 minutes)',
+        'Warm-up dance moves (3 minutes)',
+        'Oldies dance routine (9 minutes)',
         'Cool-down stretches (3 minutes)',
       ],
-      equipment: ['Yoga mat'],
+      equipment: [],
     ),
     Exercise(
-      title: 'HIIT Cardio Blast',
-      description: 'High-intensity interval training',
-      duration: '20 min',
-      difficulty: 'Intermediate',
-      category: 'Cardio',
+      title: '[15min Diet Dance] Can\'t Stop The Feeling I Say So | My Styl.',
+      description: 'JINIDANCE_official',
+      duration: '18:29',
+      difficulty: 'Beginner',
+      category: 'Dance',
       videoUrl: 'placeholder',
-      caloriesBurned: 250,
+      caloriesBurned: 180,
+      imagePath: 'assets/images/exercise/diet_dance.png',
+      author: 'JINIDANCE_official',
+      views: '646K views',
+      uploadTime: '5 months ago',
+      backgroundColor: Color(0xFFFFE8E8),
       steps: [
-        'Warm-up (3 minutes)',
-        'High-intensity intervals (12 minutes)',
-        'Active recovery (3 minutes)',
+        'Warm-up (2 minutes)',
+        'Diet dance routine (14 minutes)',
         'Cool-down (2 minutes)',
       ],
       equipment: [],
     ),
     Exercise(
-      title: 'Core Strengthening',
-      description: 'Build your core muscles',
-      duration: '12 min',
-      difficulty: 'Beginner',
-      category: 'Strength',
+      title: '12 MIN BLACKPINK DANCE PARTY WORKOUT - Full body',
+      description: 'MiZi',
+      duration: '12:38',
+      difficulty: 'Intermediate',
+      category: 'Dance',
       videoUrl: 'placeholder',
-      caloriesBurned: 120,
+      caloriesBurned: 140,
+      imagePath: 'assets/images/exercise/black_pink.png',
+      author: 'MiZi ✓',
+      views: '913K views',
+      uploadTime: '4 weeks ago',
+      backgroundColor: Color(0xFFFFF0E6),
       steps: [
         'Warm-up (2 minutes)',
-        'Plank variations (4 minutes)',
-        'Crunches and sit-ups (4 minutes)',
-        'Stretching (2 minutes)',
+        'BLACKPINK dance workout (8 minutes)',
+        'Cool-down (2 minutes)',
       ],
-      equipment: ['Exercise mat'],
+      equipment: [],
     ),
     Exercise(
-      title: 'Full Body Stretch',
-      description: 'Relax and recover',
-      duration: '25 min',
-      difficulty: 'Beginner',
-      category: 'Flexibility',
-      videoUrl: 'placeholder',
-      caloriesBurned: 60,
-      steps: [
-        'Gentle warm-up (5 minutes)',
-        'Upper body stretches (8 minutes)',
-        'Lower body stretches (8 minutes)',
-        'Relaxation (4 minutes)',
-      ],
-      equipment: ['Yoga mat', 'Pillow'],
-    ),
-    Exercise(
-      title: '15 Min Zumba Cardio Workout',
-      description: 'Beginners Latin BurpeeGirl Short Workouts',
-      duration: '15 min',
+      title: '🔥15 Min Zumba Cardio Workout🔥Beginners Latin',
+      description: 'BurpeeGirl Short Workouts',
+      duration: '21:24',
       difficulty: 'Beginner',
       category: 'Dance',
       videoUrl: 'placeholder',
-      caloriesBurned: 150,
+      caloriesBurned: 200,
+      imagePath: 'assets/images/exercise/zumba.png',
+      author: 'BurpeeGirl Short Workouts ✓',
+      views: '2.9M views',
+      uploadTime: '1 year ago',
+      backgroundColor: Color(0xFFE8E8FF),
       steps: [
         'Warm-up dance moves (3 minutes)',
-        'Latin dance cardio (9 minutes)',
+        'Latin Zumba cardio (15 minutes)',
         'Cool-down stretches (3 minutes)',
       ],
       equipment: [],

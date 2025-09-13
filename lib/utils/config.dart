@@ -1,9 +1,10 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class Config {
   // OpenAI Configuration
-  static const String openaiApiKey = String.fromEnvironment(
-    'OPENAI_API_KEY',
-    defaultValue: 'YOUR_OPENAI_API_KEY_HERE',
-  );
+  static String get openaiApiKey {
+    return dotenv.env['OPENAI_API_KEY'] ?? 'YOUR_OPENAI_API_KEY_HERE';
+  }
   
   // You can also use SharedPreferences for runtime configuration
   static String? _runtimeApiKey;
@@ -23,15 +24,15 @@ class Config {
 
 // Instructions for setting up the API key:
 // 
-// Method 1: Environment Variable (Recommended for production)
+// Method 1: Direct replacement (Easiest for development)
+// Replace 'YOUR_OPENAI_API_KEY_HERE' with your actual API key
+// 
+// Method 2: Runtime Configuration
+// Call Config.setApiKey("your-actual-api-key-here") in your main.dart
+// 
+// Method 3: Environment Variable (For production)
 // Add to your IDE run configuration or terminal:
 // export OPENAI_API_KEY="your-actual-api-key-here"
 // 
-// Method 2: Runtime Configuration
-// Call Config.setApiKey("your-actual-api-key-here") in your app
-// 
-// Method 3: Direct replacement (Not recommended for production)
-// Replace 'YOUR_OPENAI_API_KEY_HERE' with your actual API key
-// 
-// IMPORTANT: Never commit your actual API key to version control!
-// Add your API key to .gitignore or use environment variables.
+// IMPORTANT: The .env file and *.key files are already in .gitignore
+// so they won't be committed to GitHub.

@@ -13,7 +13,7 @@ class BottomNavigationWidget extends StatelessWidget {
     return Container(
       height: 70, // Reduced from 100 to 70
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFFE3F2FD), // Light blue background
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),

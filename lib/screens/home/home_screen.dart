@@ -192,7 +192,8 @@ class HomeScreen extends StatelessWidget {
                   // TODO: Add edit functionality
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Edit pledge feature coming soon!'),
+                      content: Text('You cannot edit ID and pledge until you lose 5 lbs!'),
+                      backgroundColor: Colors.grey,
                     ),
                   );
                 },
