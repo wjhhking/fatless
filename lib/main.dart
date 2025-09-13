@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'screens/video_splash_screen.dart';
 import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/survey/user_survey_screen.dart';
 import 'screens/dashboard/dashboard_screen.dart';
@@ -27,9 +28,9 @@ class FatlessApp extends StatelessWidget {
           primarySwatch: Colors.purple,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: '/',
+        home: const VideoSplashScreen(),
         routes: {
-          '/': (context) => const OnboardingScreen(),
+          '/onboarding': (context) => const OnboardingScreen(),
           '/survey': (context) => const UserSurveyScreen(),
           '/dashboard': (context) => const DashboardScreen(),
           '/chat': (context) => const ChatScreen(),

@@ -13,14 +13,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentStep = 0;
   final PageController _pageController = PageController();
 
-
-
-  final List<String> _introTexts = [
-    "Is this you when stepping on the scale?",
-    "Don't obsess over weights calories",
-    "We care all about YOU"
-  ];
-
   final List<String> _questions = [
     "Which E is the easiest for you?",
     "Have you tried these diets, are they suitable for you?",
@@ -40,80 +32,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            if (_currentStep < 2) {
-              setState(() {
-                _currentStep++;
-              });
-            } else if (_currentStep == 2) {
-              setState(() {
-                _currentStep = 3; // Move to first question
-              });
-            }
-          },
-          child: _currentStep < 3
-            ? _buildIntroSection()
-            : _buildQuestionSection(),
-        ),
+        child: _buildQuestionSection(),
       ),
     );
   }
 
-  Widget _buildIntroSection() {
-    return Stack(
-      children: [
-        Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.black,
-          child: const Center(
-            child: Icon(
-              Icons.play_circle_outline,
-              color: Colors.white,
-              size: 100,
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 100,
-          left: 20,
-          right: 20,
-          child: Column(
-            children: [
-              Text(
-                _introTexts[_currentStep],
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                _currentStep < 2 ? 'Tap to continue' : 'Tap to start questions',
-                style: TextStyle(
-                  color: Colors.grey[400],
-                  fontSize: 16,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 40),
-              LinearProgressIndicator(
-                value: (_currentStep + 1) / 3,
-                backgroundColor: Colors.grey[800],
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.purple),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildQuestionSection() {
-    final questionIndex = _currentStep - 3;
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -128,7 +52,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             const SizedBox(height: 60),
             Text(
-              _questions[questionIndex],
+              _questions[_currentStep],
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -145,18 +69,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),
-                itemCount: _options[questionIndex].length,
+                itemCount: _options[_currentStep].length,
                 itemBuilder: (context, index) {
-                  final option = _options[questionIndex][index];
-                  final isSelected = _selectedOptions[questionIndex].contains(option);
+                  final option = _options[_currentStep][index];
+                  final isSelected = _selectedOptions[_currentStep].contains(option);
 
                   return GestureDetector(
                     onTap: () {
                       setState(() {
                         if (isSelected) {
-                          _selectedOptions[questionIndex].remove(option);
+                          _selectedOptions[_currentStep].remove(option);
                         } else {
-                          _selectedOptions[questionIndex].add(option);
+                          _selectedOptions[_currentStep].add(option);
                         }
                       });
                     },
@@ -201,7 +125,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (questionIndex > 0)
+                if (_currentStep > 0)
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
@@ -214,7 +138,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const SizedBox(),
                 ElevatedButton(
                   onPressed: () {
-                    if (questionIndex == 2) {
+                    if (_currentStep == 2) {
                       // Last question, navigate directly to survey
                       _navigateToProfile();
                     } else {
@@ -223,7 +147,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       });
                     }
                   },
-                  child: Text(questionIndex == 2 ? 'Continue' : 'Next'),
+                  child: Text(_currentStep == 2 ? 'Continue' : 'Next'),
                 ),
               ],
             ),
