@@ -115,8 +115,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               const SizedBox(height: 60),
               Text(
                 _questions[_currentStep],
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: _currentStep == 3 ? const Color.fromARGB(255, 82, 82, 82) : Colors.white,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -284,7 +284,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     if (_showTransitionBackground) {
       imagePath = 'assets/images/transition 3 - no text.png';
     } else if (_currentStep == 0 && _showAfterAnswerBackground) {
-      imagePath = 'assets/images/transition 2 - no text.png';
+      imagePath = 'assets/images/onboarding Q1 after answer - no text.png';
     } else if (_currentStep == 1) {
       imagePath = 'assets/images/onboarding Q2 - no text.png';
     } else if (_currentStep == 2) {
