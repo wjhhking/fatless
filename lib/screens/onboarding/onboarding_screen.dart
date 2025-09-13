@@ -123,7 +123,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 1,
-                    childAspectRatio: 6,
+                    childAspectRatio: 8,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 15,
                   ),
@@ -174,7 +174,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16.0,
-                            vertical: 12.0,
+                            vertical: 4.0,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -215,30 +215,46 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   if (_currentStep > 0)
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _currentStep--;
-                        });
-                      },
-                      child: const Text('Back'),
+                    SizedBox(
+                      height: 42,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _currentStep--;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(80, 42),
+                          backgroundColor: Colors.grey[800],
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text('Back'),
+                      ),
                     )
                   else
                     const SizedBox(),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_currentStep == 2) {
-                        // Last question, navigate directly to survey
-                        _navigateToProfile();
-                      } else {
-                        // Update the question content and background
-                        setState(() {
-                          _currentStep++;
-                          _updateBackgroundForStep();
-                        });
-                      }
-                    },
-                    child: Text(_currentStep == 2 ? 'Continue' : 'Next'),
+                  SizedBox(
+                    height: 42,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_currentStep == 2) {
+                          // Last question, navigate directly to survey
+                          _navigateToProfile();
+                        } else {
+                          // Update the question content and background
+                          setState(() {
+                            _currentStep++;
+                            _updateBackgroundForStep();
+                          });
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(80, 42),
+                        backgroundColor: Colors.grey[800],
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text(_currentStep == 2 ? 'Continue' : 'Next'),
+                    ),
                   ),
                 ],
               ),
