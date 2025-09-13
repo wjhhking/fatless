@@ -1,181 +1,78 @@
-# Fatless App Development Plan
+# Fatless App - AI Fitness Assistant
 
 ## 🎯 Project Overview
-Flutter-based fitness app with AI-powered chat, onboarding flow, and meal/workout tracking for SF Belle Hackathon 2025.
+Flutter fitness app with AI-powered chat, onboarding flow, and meal/workout tracking for SF Belle Hackathon 2025.
 
-## 📋 Development Phases
+**Core Features:**
+- Video onboarding with interactive survey
+- AI chat assistant (currently OpenAI-based)
+- Meal planning with recipe extraction
+- Workout recommendations
+- User profile and progress tracking
 
-### Phase 1: Core Setup & Dependencies
-- [ ] Add required dependencies (animations, state management, HTTP, database)
-- [ ] Setup project structure (screens, widgets, models, services)
-- [ ] Configure assets folder for images/videos
-- [ ] Setup basic routing and navigation
+## 🤖 Zypher AI Agent Integration Options
 
-### Phase 2: Onboarding Flow
-- [ ] **Video Introduction (0-10s)**
-  - Background video with overlay text
-  - Auto-progression through 3 text screens
-  - Audio integration
-- [ ] **Interactive Survey (10-20s)**
-  - Q1: Exercise preferences with lighting animation
-  - Q2: Diet experience multi-select
-  - Q3: Quit reasons multi-select
-  - Click sound effects and visual feedback
-- [ ] **Transition Sequence (20s+)**
-  - Smooth animations between screens
-  - Auto-progression to user survey
+### 1. **Smart Chat Enhancement** ⭐ (Easiest)
+- Replace current OpenAI chat with Zypher agent
+- Tools: Access user profile, meal/workout history, goal tracking
+- Benefits: Context-aware conversations, persistent memory
+- Implementation: Minimal - just swap the chat service
 
-### Phase 3: User Survey & Profile
-- [ ] **Data Collection Form**
-  - Height, current weight, target weight (int)
-  - Other fields as strings
-  - Form validation
-- [ ] **User ID Generation**
-  - Format: YYYYMMDD + target weight
-  - Auto-save to local database
-- [ ] **Profile Setup**
-  - Tag generation from survey answers
-  - Avatar selection (3 placeholder options)
-  - Weight loss declaration
+### 2. **Meal Planning Assistant**
+- AI agent for personalized meal recommendations
+- Tools: Recipe database, nutrition calculations, dietary restrictions
+- Benefits: Intelligent meal suggestions based on goals
+- Implementation: Moderate - new agent + meal planning tools
 
-### Phase 4: Chat System
-- [ ] **AI Integration**
-  - Model API setup (Arena/OpenAI)
-  - System prompt configuration
-  - Mood-based responses (distract/motivate/remind)
-- [ ] **Chat Interface**
-  - Message bubbles with Daniel character
-  - Hardcoded welcome messages for first-time users
-  - Real-time conversation flow
-- [ ] **Content Extraction**
-  - Auto-detect diet recipes → Meal section
-  - Auto-detect workout videos → Workout section
+### 3. **Workout Coach Agent**
+- Personal trainer AI with exercise recommendations
+- Tools: Exercise database, progress tracking, form suggestions
+- Benefits: Adaptive workout plans, real-time coaching
+- Implementation: Moderate - exercise tools + progress tracking
 
-### Phase 5: Core Features
-- [ ] **Main Dashboard**
-  - User profile tags display
-  - Navigation to Chat/Meal/Workout
-  - Progress indicators
-- [ ] **Meal Section**
-  - Recipe cards from chat conversations
-  - Blue filter toggle for appetite suppression
-  - Search functionality (future enhancement)
-- [ ] **Workout Section**
-  - Video cards from chat conversations
-  - Duration-based filtering
-  - Exercise categorization
+### 4. **Health Data Analyzer**
+- Background agent analyzing user metrics
+- Tools: Data processing, trend analysis, insights generation
+- Benefits: Proactive health recommendations
+- Implementation: Complex - data analysis tools + background processing
 
-### Phase 6: Database & State Management
-- [ ] **Local Storage**
-  - User profile data
-  - Chat history
-  - Saved recipes and workouts
-- [ ] **State Management**
-  - User session management
-  - Chat state persistence
-  - Navigation state
+### 5. **Goal Setting & Progress Tracker**
+- Agent for realistic goal setting and motivation
+- Tools: Goal calculations, milestone tracking, notifications
+- Benefits: Intelligent goal adjustment, motivation system
+- Implementation: Moderate - goal tracking tools + notification system
 
-### Phase 7: UI/UX Polish
-- [ ] **Animations**
-  - Onboarding lighting effects
-  - Smooth transitions
-  - Loading states
-- [ ] **Responsive Design**
-  - Mobile-first approach
-  - Cross-platform compatibility
-- [ ] **Visual Assets**
-  - Placeholder images integration
-  - Icon set implementation
-  - Color scheme consistency
+## 🚀 Demo Implementation Plan
 
-## 🛠 Technical Stack
+**Target: Smart Chat Enhancement (Option 1)**
+- Quick 20-second demo showing enhanced chat capabilities
+- Zypher agent remembers user context across conversations
+- Demonstrates intelligent responses based on user profile
+- Minimal code changes to existing chat system
 
-### Dependencies to Add
-```yaml
-dependencies:
-  # State Management
-  provider: ^6.1.1
+**Implementation Steps:**
+1. Create Zypher agent with user profile access tools
+2. Replace OpenAI service calls with Zypher agent
+3. Add tools for reading user data (profile, goals, history)
+4. Demo conversation showing context awareness
 
-  # Animations
-  lottie: ^3.1.0
+**Demo Script:**
+- User asks about meal suggestions
+- Agent references user's dietary goals from profile
+- Agent suggests recipes based on previous preferences
+- Shows persistent memory across chat sessions
 
-  # HTTP & API
-  http: ^1.1.2
-  dio: ^5.4.0
-
-  # Database
-  sqflite: ^2.3.0
-  shared_preferences: ^2.2.2
-
-  # Media
-  video_player: ^2.8.1
-  audioplayers: ^5.2.1
-
-  # UI Components
-  flutter_staggered_animations: ^1.1.1
-  cached_network_image: ^3.3.0
-```
-
-### Project Structure
-```
-lib/
-├── main.dart
-├── models/
-│   ├── user_profile.dart
-│   ├── chat_message.dart
-│   ├── recipe.dart
-│   └── workout.dart
-├── screens/
-│   ├── onboarding/
-│   ├── survey/
-│   ├── dashboard/
-│   ├── chat/
-│   ├── meal/
-│   └── workout/
-├── widgets/
-│   ├── common/
-│   └── custom/
-├── services/
-│   ├── api_service.dart
-│   ├── database_service.dart
-│   └── audio_service.dart
-└── utils/
-    ├── constants.dart
-    └── helpers.dart
-```
-
-## 🎨 Key Features Implementation
-
-### Onboarding Animation System
-- Video background with text overlays
-- Interactive multi-select with lighting effects
-- Sound feedback on interactions
-- Smooth transitions between phases
-
-### AI Chat Integration
-- Context-aware responses based on user mood selection
-- Automatic content categorization
-- Conversation history persistence
-
-### Content Management
-- Auto-extraction of recipes and workouts from chat
-- Visual filtering effects (blue filter for meals)
-- Categorization and search capabilities
-
-## 🚀 Development Priority
-1. **High Priority**: Onboarding flow, basic chat, user survey
-2. **Medium Priority**: Meal/workout sections, database integration
-3. **Low Priority**: Advanced animations, search features, filters
-
-## 📱 Platform Targets
-- Primary: Web (Chrome) for demo
-- Secondary: iOS/Android for future deployment
+## 📱 Current Tech Stack
+- Flutter (Dart)
+- OpenAI API (to be replaced with Zypher)
+- Local storage for user data
+- Video player for onboarding
+- Custom UI components
 
 ## ⏰ Hackathon Timeline
-- **Setup & Dependencies**: 2 hours
-- **Onboarding Flow**: 4 hours
-- **Chat System**: 3 hours
-- **Core Features**: 3 hours
-- **Polish & Testing**: 2 hours
+- **Zypher Setup**: 1 hour
+- **Agent Implementation**: 2 hours
+- **Integration & Testing**: 1 hour
+- **Demo Preparation**: 30 minutes
 
-Total: ~14 hours development time
+Total: ~4.5 hours for Zypher integration

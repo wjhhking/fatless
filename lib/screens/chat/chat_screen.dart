@@ -243,21 +243,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     try {
-      // Check if API key is configured
-      if (!Config.isApiKeyConfigured) {
-        setState(() {
-          _messages.removeLast(); // Remove loading message
-          _messages.add(ChatMessage(
-            text: "Please configure your OpenAI API key in the settings to enable AI responses.",
-            isUser: false,
-            timestamp: DateTime.now(),
-            isError: true,
-          ));
-        });
-        return;
-      }
-
-      // Get AI response
+      // Get AI response from OpenAI
       final response = await OpenAIService.generateChatResponse(
         messageText,
         _selectedMood,
