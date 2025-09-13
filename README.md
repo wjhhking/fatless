@@ -6,5 +6,5 @@ A Flutter fitness tracking app.
 
 ```bash
 flutter pub get
-flutter run -d chrome
+flutter run -d web-server --web-port 8080
 ```
