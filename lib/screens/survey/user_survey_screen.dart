@@ -170,19 +170,17 @@ class _UserSurveyScreenState extends State<UserSurveyScreen> {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 8),
-          Row(
+          Column(
             children: ['Female', 'Male', 'Other'].map((gender) {
-              return Expanded(
-                child: RadioListTile<String>(
-                  title: Text(gender),
-                  value: gender,
-                  groupValue: _selectedGender,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedGender = value!;
-                    });
-                  },
-                ),
+              return RadioListTile<String>(
+                title: Text(gender),
+                value: gender,
+                groupValue: _selectedGender,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value!;
+                  });
+                },
               );
             }).toList(),
           ),
