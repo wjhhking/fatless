@@ -20,11 +20,8 @@ class _UserSurveyScreenState extends State<UserSurveyScreen> {
   final _declarationController = TextEditingController();
 
   String _selectedGender = 'Female';
-  String _selectedAvatar = 'avatar1';
   String _selectedMbti = 'ENFP';
   String _selectedRelationshipStatus = "I'm not serious for now";
-
-  final List<String> _avatarOptions = ['avatar1', 'avatar2', 'avatar3'];
   final List<String> _mbtiOptions = [
     'INTJ',
     'INTP',
@@ -165,9 +162,7 @@ class _UserSurveyScreenState extends State<UserSurveyScreen> {
                   _buildRelationshipStatusSelector(),
                   const SizedBox(height: 20),
 
-                  _buildSectionTitle('Choose Your Avatar'),
-                  _buildAvatarSelector(),
-                  const SizedBox(height: 20),
+
 
                   if (_exercisePreferences.isNotEmpty ||
                       _dietExperience.isNotEmpty ||
@@ -313,45 +308,7 @@ class _UserSurveyScreenState extends State<UserSurveyScreen> {
     );
   }
 
-  Widget _buildAvatarSelector() {
-    return SizedBox(
-      height: 100,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: _avatarOptions.map((avatar) {
-          final isSelected = _selectedAvatar == avatar;
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                _selectedAvatar = avatar;
-              });
-            },
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected
-                      ? const Color(0xFF4A9B8E)
-                      : const Color(0xFFE5E7EB),
-                  width: 3,
-                ),
-                color: const Color(0xFFF9FAFB),
-              ),
-              child: Icon(
-                Icons.person,
-                size: 40,
-                color: isSelected
-                    ? const Color(0xFF4A9B8E)
-                    : const Color(0xFF6B7280),
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
+
 
   Widget _buildMbtiSelector() {
     return Padding(
@@ -534,7 +491,7 @@ class _UserSurveyScreenState extends State<UserSurveyScreen> {
         exercisePreferences: _exercisePreferences,
         dietExperience: _dietExperience,
         quitReasons: _quitReasons,
-        avatar: _selectedAvatar,
+        avatar: 'default',
         weightLossDeclaration: _declarationController.text,
       );
 
