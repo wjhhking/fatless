@@ -278,54 +278,7 @@ class _VideoSplashScreenState extends State<VideoSplashScreen> {
                 ),
               ),
             
-            // Debug info overlay - positioned responsively
-            Positioned(
-              top: screenSize.height * 0.3,
-              right: 20,
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.yellow.withOpacity(0.3)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'DEBUG INFO',
-                      style: TextStyle(color: Colors.yellow, fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'Video Initialized: $_isVideoInitialized',
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                    if (_isVideoInitialized) ...[
-                      Text(
-                      'Video Playing: ${_isVideoPlaying}',
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                    Text(
-                      'User Interacted: $_hasUserInteracted',
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                      Text(
-                        'Aspect Ratio: ${_controller.value.aspectRatio.toStringAsFixed(2)}',
-                        style: const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ],
-                    Text(
-                      'Screen: ${screenSize.width.toInt()}x${screenSize.height.toInt()}',
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                    Text(
-                      'Current Text: ${_currentText.isEmpty ? "None" : _currentText}',
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+
             ],
           ),
         ),
