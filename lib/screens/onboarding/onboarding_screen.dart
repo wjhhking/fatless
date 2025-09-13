@@ -13,6 +13,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentStep = 0;
   final PageController _pageController = PageController();
   bool _showAfterAnswerBackground = false;
+  bool _showTransitionBackground = false;
+  bool _hideButtons = false;
   String _currentBackgroundImage = '';
 
   final List<String> _introTexts = [
@@ -25,15 +27,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     "Which E is the easiest for you?",
     "Have you tried these diets, are they suitable for you?",
     "Have you ever quit due to…",
+    "Now, you have me",
   ];
 
   final List<List<String>> _options = [
     ["Eating", "Exercise", "Entertainment", "Education"],
     ["Keto", "Paleo", "Vegan", "Mediterranean", "Low-carb"],
     ["Lack of time", "No results", "Too expensive", "Too difficult", "Boring"],
+    ["Diet Expert", "Fitness Coach", "Check-in Friend"],
   ];
 
-  final List<List<String>> _selectedOptions = [[], [], []];
+  final List<List<String>> _selectedOptions = [[], [], [], []];
 
   @override
   Widget build(BuildContext context) {
@@ -211,53 +215,62 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (_currentStep > 0)
+              if (!_hideButtons)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (_currentStep > 0)
+                      SizedBox(
+                        height: 42,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _currentStep--;
+                              _updateBackgroundForStep();
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey[800],
+                            foregroundColor: Colors.white,
+                            minimumSize: const Size(100, 42),
+                          ),
+                          child: const Text('Back'),
+                        ),
+                      ),
+                    if (_currentStep == 0) const SizedBox(width: 100),
                     SizedBox(
                       height: 42,
                       child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _currentStep--;
-                          });
+                        onPressed: () async {
+                          if (_currentStep == 3) {
+                            setState(() {
+                              _hideButtons = true;
+                              _showTransitionBackground = true;
+                            });
+                            await Future.delayed(const Duration(seconds: 1));
+                            _navigateToProfile();
+                          } else if (_currentStep == 2) {
+                            setState(() {
+                              _currentStep++;
+                              _updateBackgroundForStep();
+                            });
+                          } else {
+                            setState(() {
+                              _currentStep++;
+                              _updateBackgroundForStep();
+                            });
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(80, 42),
                           backgroundColor: Colors.grey[800],
                           foregroundColor: Colors.white,
+                          minimumSize: const Size(100, 42),
                         ),
-                        child: const Text('Back'),
+                        child: Text(_currentStep == 3 ? 'Continue' : 'Next'),
                       ),
-                    )
-                  else
-                    const SizedBox(),
-                  SizedBox(
-                    height: 42,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (_currentStep == 2) {
-                          // Last question, navigate directly to survey
-                          _navigateToProfile();
-                        } else {
-                          // Update the question content and background
-                          setState(() {
-                            _currentStep++;
-                            _updateBackgroundForStep();
-                          });
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(80, 42),
-                        backgroundColor: Colors.grey[800],
-                        foregroundColor: Colors.white,
-                      ),
-                      child: Text(_currentStep == 2 ? 'Continue' : 'Next'),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
             ],
           ),
         ),
@@ -268,12 +281,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   DecorationImage? _getBackgroundImage(BuildContext context) {
     String imagePath = '';
 
-    if (_currentStep == 0 && _showAfterAnswerBackground) {
-      imagePath = 'assets/images/onboarding Q1 after answer - no text.png';
+    if (_showTransitionBackground) {
+      imagePath = 'assets/images/transition 3 - no text.png';
+    } else if (_currentStep == 0 && _showAfterAnswerBackground) {
+      imagePath = 'assets/images/transition 2 - no text.png';
     } else if (_currentStep == 1) {
       imagePath = 'assets/images/onboarding Q2 - no text.png';
     } else if (_currentStep == 2) {
       imagePath = 'assets/images/onboarding Q3 - no text.png';
+    } else if (_currentStep == 3) {
+      imagePath = 'assets/images/transition - no text.png';
     }
 
     if (imagePath.isNotEmpty) {
@@ -289,11 +306,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _updateBackgroundForStep() {
     switch (_currentStep) {
+      case 0:
       case 1:
-        _currentBackgroundImage = 'assets/images/onboarding Q2 - no text.png';
-        break;
       case 2:
-        _currentBackgroundImage = 'assets/images/onboarding Q3 - no text.png';
+      case 3:
+        setState(() {
+          _showAfterAnswerBackground = false;
+          _showTransitionBackground = false;
+        });
         break;
       default:
         _currentBackgroundImage = '';
