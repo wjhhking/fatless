@@ -6,6 +6,10 @@ class ChatMessage {
   final DateTime timestamp;
   final String? senderName;
   final String? senderAvatar;
+  final bool isLoading;
+  final bool isError;
+  final Widget? cardWidget;
+  final String messageType; // 'text', 'exercise', 'recipe'
 
   ChatMessage({
     required this.text,
@@ -13,6 +17,10 @@ class ChatMessage {
     required this.timestamp,
     this.senderName,
     this.senderAvatar,
+    this.isLoading = false,
+    this.isError = false,
+    this.cardWidget,
+    this.messageType = 'text',
   });
 }
 
