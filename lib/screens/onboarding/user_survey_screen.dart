@@ -288,23 +288,21 @@ class _UserSurveyScreenState extends State<UserSurveyScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          Row(
+          Column(
             children: ['Female', 'Male', 'Other'].map((gender) {
-              return Expanded(
-                child: RadioListTile<String>(
-                  title: Text(
-                    gender,
-                    style: const TextStyle(color: Color(0xFF374151)),
-                  ),
-                  value: gender,
-                  groupValue: _selectedGender,
-                  activeColor: const Color(0xFF4A9B8E),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedGender = value!;
-                    });
-                  },
+              return RadioListTile<String>(
+                title: Text(
+                  gender,
+                  style: const TextStyle(color: Color(0xFF374151)),
                 ),
+                value: gender,
+                groupValue: _selectedGender,
+                activeColor: const Color(0xFF4A9B8E),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value!;
+                  });
+                },
               );
             }).toList(),
           ),
