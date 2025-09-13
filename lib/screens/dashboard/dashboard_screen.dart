@@ -8,12 +8,24 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        title: const Text('Fatless'),
-        backgroundColor: Colors.purple,
-        foregroundColor: Colors.white,
-        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xFFF5F7FA),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.menu, color: Colors.black54),
+          onPressed: () {},
+        ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 16),
+            child: const Icon(
+              Icons.star,
+              color: Color(0xFF4A90E2),
+              size: 24,
+            ),
+          ),
+        ],
       ),
       body: Consumer<UserService>(
         builder: (context, userService, child) {
@@ -23,291 +35,384 @@ class DashboardScreen extends StatelessWidget {
           }
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildWelcomeSection(user.name, user.avatar),
+                _buildUserProfileCard(user.name, user.height, user.currentWeight, user.tags),
                 const SizedBox(height: 20),
-                _buildProgressSection(user.currentWeight, user.targetWeight),
+                _buildPledgeSection(),
                 const SizedBox(height: 20),
-                _buildTagsSection(user.tags),
-                const SizedBox(height: 30),
-                _buildNavigationCards(context),
+                _buildChatsSection(context),
               ],
             ),
           );
         },
       ),
+      bottomNavigationBar: _buildBottomNavigation(context),
     );
   }
 
-  Widget _buildWelcomeSection(String name, String avatar) {
+  Widget _buildUserProfileCard(String name, String height, int weight, List<String> tags) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Colors.purple, Colors.deepPurple],
-        ),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-            ),
-            child: const Icon(
-              Icons.person,
-              size: 30,
-              color: Colors.purple,
-            ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
           ),
-          const SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Welcome back, $name!',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFF4A90E2),
                 ),
-                const Text(
-                  'Ready to continue your journey?',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
+                child: const Icon(
+                  Icons.person,
+                  size: 30,
+                  color: Colors.white,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hello, $name',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF4A90E2),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '${height}cm, ${weight}lbs',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              _buildTag('ENTJ', const Color(0xFFE8F4FD)),
+              const SizedBox(width: 8),
+              _buildTag('168 cm, 125 lbs', const Color(0xFFF0F0F0)),
+              const SizedBox(width: 8),
+              _buildTag('Aquarius', const Color(0xFFF0F0F0)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              _buildTag('Single', const Color(0xFFF0F0F0)),
+              const SizedBox(width: 8),
+              _buildTag('Long-term', const Color(0xFFF0F0F0)),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildProgressSection(int currentWeight, int targetWeight) {
-    final progress = (currentWeight - targetWeight) / currentWeight;
-    final progressPercentage = (progress * 100).clamp(0, 100);
+  Widget _buildTag(String text, Color backgroundColor) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 12,
+          color: backgroundColor == const Color(0xFFE8F4FD) ? const Color(0xFF4A90E2) : Colors.grey[700],
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
 
+  Widget _buildPledgeSection() {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 5,
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Your Progress',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.purple,
-            ),
-          ),
-          const SizedBox(height: 15),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStatCard('Current', '${currentWeight}kg', Colors.blue),
-              _buildStatCard('Target', '${targetWeight}kg', Colors.green),
-              _buildStatCard('To Go', '${currentWeight - targetWeight}kg', Colors.orange),
+              Container(
+                width: 24,
+                height: 24,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFFFF9500),
+                ),
+                child: const Icon(
+                  Icons.lightbulb,
+                  size: 14,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                'I pledge:',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+              ),
+              const Spacer(),
+              const Icon(
+                Icons.edit,
+                size: 20,
+                color: Colors.grey,
+              ),
             ],
           ),
-          const SizedBox(height: 15),
-          LinearProgressIndicator(
-            value: progressPercentage / 100,
-            backgroundColor: Colors.grey[300],
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.purple),
+          const SizedBox(height: 12),
+          Text(
+            'Eg. Every time I crave for snacks, I will donate 5 dollars to Lay\'s as a tribute.',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+              height: 1.4,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildStatCard(String label, String value, Color color) {
+  Widget _buildChatsSection(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
+        Row(
+          children: [
+            const Icon(
+              Icons.chat_bubble_outline,
+              color: Color(0xFF4A90E2),
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'Chats',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+            const Spacer(),
+            const Icon(
+              Icons.add,
+              color: Colors.grey,
+              size: 24,
+            ),
+          ],
         ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
+        const SizedBox(height: 16),
+        _buildChatItem(
+          'Daniel 😊',
+          'I thought we\'ve met before',
+          '2',
+          const Color(0xFF4CAF50),
+          context,
+        ),
+        const SizedBox(height: 12),
+        _buildChatItem(
+          'Group Chat (9.1 - 10.1)',
+          'I am hitting 120lbs today!',
+          '4',
+          const Color(0xFFFF5722),
+          context,
         ),
       ],
     );
   }
 
-  Widget _buildTagsSection(List<String> tags) {
-    if (tags.isEmpty) return const SizedBox();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Your Profile',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.purple,
-          ),
+  Widget _buildChatItem(String name, String message, String count, Color avatarColor, BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, '/chat'),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: avatarColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
         ),
-        const SizedBox(height: 10),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: tags.take(6).map((tag) {
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
-                color: Colors.purple[100],
-                borderRadius: BorderRadius.circular(20),
+                shape: BoxShape.circle,
+                color: avatarColor,
               ),
-              child: Text(
-                tag,
-                style: const TextStyle(
-                  color: Colors.purple,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
+              child: const Icon(
+                Icons.person,
+                color: Colors.white,
+                size: 24,
               ),
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildNavigationCards(BuildContext context) {
-    final cards = [
-      {
-        'title': 'Chat with Daniel',
-        'subtitle': 'Get personalized advice',
-        'icon': Icons.chat_bubble,
-        'color': Colors.blue,
-        'route': '/chat',
-      },
-      {
-        'title': 'Meal Plans',
-        'subtitle': 'Healthy recipes for you',
-        'icon': Icons.restaurant,
-        'color': Colors.green,
-        'route': '/meal',
-      },
-      {
-        'title': 'Workouts',
-        'subtitle': 'Exercise videos & tips',
-        'icon': Icons.fitness_center,
-        'color': Colors.orange,
-        'route': '/workout',
-      },
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Explore',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.purple,
-          ),
-        ),
-        const SizedBox(height: 15),
-        ...cards.map((card) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: GestureDetector(
-              onTap: () => Navigator.pushNamed(context, card['route'] as String),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      spreadRadius: 1,
-                      blurRadius: 5,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
                     ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: (card['color'] as Color).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Icon(
-                        card['icon'] as IconData,
-                        color: card['color'] as Color,
-                        size: 25,
-                      ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    message,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
                     ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            card['title'] as String,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            card['subtitle'] as String,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey,
-                      size: 16,
-                    ),
-                  ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 24,
+              height: 24,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.red,
+              ),
+              child: Center(
+                child: Text(
+                  count,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          );
-        }),
-      ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomNavigation(BuildContext context) {
+    return Container(
+      height: 80,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildNavItem(Icons.home, 'Home', true, () {}),
+          _buildNavItem(Icons.restaurant, 'Meal', false, () => Navigator.pushNamed(context, '/meal')),
+          _buildNavItem(Icons.fitness_center, 'Workout', false, () => Navigator.pushNamed(context, '/workout')),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, String label, bool isSelected, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 24,
+              height: 24,
+              child: Stack(
+                children: [
+                  Icon(
+                    icon,
+                    color: isSelected ? const Color(0xFF4A90E2) : Colors.grey,
+                    size: 24,
+                  ),
+                  if (label == 'Home' && isSelected)
+                    Positioned(
+                      top: -2,
+                      right: -2,
+                      child: Container(
+                        width: 8,
+                        height: 8,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            '6',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 6,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                color: isSelected ? const Color(0xFF4A90E2) : Colors.grey,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
