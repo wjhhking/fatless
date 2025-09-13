@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/onboarding/onboarding_screen.dart';
-import 'screens/survey/user_survey_screen.dart';
-import 'screens/dashboard/dashboard_screen.dart';
+import 'screens/onboarding/user_survey_screen.dart';
+import 'screens/home/home_screen.dart';
 import 'screens/chat/chat_screen.dart';
+import 'screens/chat/group_chat_screen.dart';
+import 'screens/chat/fitness_chat_screen.dart';
 import 'screens/meal/meal_screen.dart';
 import 'screens/workout/workout_screen.dart';
 import 'services/user_service.dart';
@@ -29,13 +31,15 @@ class FatlessApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/': (context) => const OnboardingScreen(),
-          '/survey': (context) => const UserSurveyScreen(),
-          '/dashboard': (context) => const DashboardScreen(),
-          '/chat': (context) => const ChatScreen(),
-          '/meal': (context) => const MealScreen(),
-          '/workout': (context) => const WorkoutScreen(),
-        },
+        '/': (context) => const OnboardingScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/chat': (context) => const ChatScreen(),
+        '/group-chat': (context) => const GroupChatScreen(),
+        '/fitness-chat': (context) => const FitnessChatScreen(),
+        '/meal': (context) => const MealScreen(),
+        '/workout': (context) => const WorkoutScreen(),
+        '/survey': (context) => const UserSurveyScreen(),
+      },
       ),
     );
   }

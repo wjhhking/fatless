@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../widgets/common/bottom_navigation_widget.dart';
+import '../../models/exercise.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -12,40 +14,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   final List<String> _durationFilters = ['All', '5-10 min', '10-20 min', '20-30 min', '30+ min'];
 
-  final List<WorkoutCard> _workouts = [
-    WorkoutCard(
-      title: 'Morning Yoga Flow',
-      description: 'Gentle stretches to start your day',
-      duration: '15 min',
-      difficulty: 'Beginner',
-      category: 'Yoga',
-      videoUrl: 'placeholder',
-    ),
-    WorkoutCard(
-      title: 'HIIT Cardio Blast',
-      description: 'High-intensity interval training',
-      duration: '20 min',
-      difficulty: 'Intermediate',
-      category: 'Cardio',
-      videoUrl: 'placeholder',
-    ),
-    WorkoutCard(
-      title: 'Core Strengthening',
-      description: 'Build your core muscles',
-      duration: '12 min',
-      difficulty: 'Beginner',
-      category: 'Strength',
-      videoUrl: 'placeholder',
-    ),
-    WorkoutCard(
-      title: 'Full Body Stretch',
-      description: 'Relax and recover',
-      duration: '25 min',
-      difficulty: 'Beginner',
-      category: 'Flexibility',
-      videoUrl: 'placeholder',
-    ),
-  ];
+  final List<Exercise> _workouts = ExerciseData.popularExercises;
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +47,15 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         backgroundColor: Colors.orange,
         child: const Icon(Icons.add, color: Colors.white),
       ),
+      bottomNavigationBar: const BottomNavigationWidget(currentRoute: '/workout'),
     );
   }
 
-  List<WorkoutCard> get _filteredWorkouts {
+  List<Exercise> get _filteredWorkouts {
     if (_selectedDuration == 'All') return _workouts;
 
     return _workouts.where((workout) {
-      final duration = int.parse(workout.duration.split(' ')[0]);
+      final duration = workout.durationAsInt;
       switch (_selectedDuration) {
         case '5-10 min':
           return duration >= 5 && duration <= 10;
@@ -132,7 +102,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     );
   }
 
-  Widget _buildWorkoutCard(WorkoutCard workout) {
+  Widget _buildWorkoutCard(Exercise workout) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       child: Column(
@@ -281,7 +251,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     }
   }
 
-  void _showWorkoutDetails(WorkoutCard workout) {
+  void _showWorkoutDetails(Exercise workout) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -316,7 +286,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            const Text('1. Warm-up (2 minutes)\n2. Main exercise routine\n3. Cool-down stretches\n4. Final relaxation'),
+            Text(workout.formattedSteps),
             const Spacer(),
             SizedBox(
               width: double.infinity,
@@ -340,22 +310,4 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       ),
     );
   }
-}
-
-class WorkoutCard {
-  final String title;
-  final String description;
-  final String duration;
-  final String difficulty;
-  final String category;
-  final String videoUrl;
-
-  WorkoutCard({
-    required this.title,
-    required this.description,
-    required this.duration,
-    required this.difficulty,
-    required this.category,
-    required this.videoUrl,
-  });
 }

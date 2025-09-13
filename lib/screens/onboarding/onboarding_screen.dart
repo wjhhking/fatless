@@ -13,24 +13,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentStep = 0;
   final PageController _pageController = PageController();
 
-
-
   final List<String> _introTexts = [
     "Is this you when stepping on the scale?",
     "Don't obsess over weights calories",
-    "We care all about YOU"
+    "We care all about YOU",
   ];
 
   final List<String> _questions = [
     "Which E is the easiest for you?",
     "Have you tried these diets, are they suitable for you?",
-    "Have you ever quit due to…"
+    "Have you ever quit due to…",
   ];
 
   final List<List<String>> _options = [
     ["Eating", "Exercise", "Entertainment", "Education"],
     ["Keto", "Paleo", "Vegan", "Mediterranean", "Low-carb"],
-    ["Lack of time", "No results", "Too expensive", "Too difficult", "Boring"]
+    ["Lack of time", "No results", "Too expensive", "Too difficult", "Boring"],
   ];
 
   final List<List<String>> _selectedOptions = [[], [], []];
@@ -53,8 +51,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             }
           },
           child: _currentStep < 3
-            ? _buildIntroSection()
-            : _buildQuestionSection(),
+              ? _buildIntroSection()
+              : _buildQuestionSection(),
         ),
       ),
     );
@@ -93,10 +91,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               const SizedBox(height: 20),
               Text(
                 _currentStep < 2 ? 'Tap to continue' : 'Tap to start questions',
-                style: TextStyle(
-                  color: Colors.grey[400],
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: Colors.grey[400], fontSize: 16),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
@@ -148,7 +143,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 itemCount: _options[questionIndex].length,
                 itemBuilder: (context, index) {
                   final option = _options[questionIndex][index];
-                  final isSelected = _selectedOptions[questionIndex].contains(option);
+                  final isSelected = _selectedOptions[questionIndex].contains(
+                    option,
+                  );
 
                   return GestureDetector(
                     onTap: () {
@@ -232,7 +229,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
-
 
   @override
   void initState() {

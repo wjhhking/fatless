@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/user_service.dart';
+import '../../widgets/common/bottom_navigation_widget.dart';
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +20,7 @@ class DashboardScreen extends StatelessWidget {
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 16),
-            child: const Icon(
-              Icons.star,
-              color: Color(0xFF4A90E2),
-              size: 24,
-            ),
+            child: const Icon(Icons.star, color: Color(0xFF4A90E2), size: 24),
           ),
         ],
       ),
@@ -38,9 +35,14 @@ class DashboardScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                _buildUserProfileCard(user.name, user.height, user.currentWeight, user.tags),
+                _buildUserProfileCard(
+                  user.name,
+                  user.height,
+                  user.currentWeight,
+                  user.tags,
+                ),
                 const SizedBox(height: 20),
-                _buildPledgeSection(),
+                _buildPledgeSection(context),
                 const SizedBox(height: 20),
                 _buildChatsSection(context),
               ],
@@ -48,12 +50,18 @@ class DashboardScreen extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar: _buildBottomNavigation(context),
+      bottomNavigationBar: const BottomNavigationWidget(currentRoute: '/home'),
     );
   }
 
-  Widget _buildUserProfileCard(String name, String height, int weight, List<String> tags) {
+  Widget _buildUserProfileCard(
+    String name,
+    String height,
+    int weight,
+    List<String> tags,
+  ) {
     return Container(
+      height: 200,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -66,66 +74,51 @@ class DashboardScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
+      child: Row(
         children: [
-          Row(
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFF4A90E2),
-                ),
-                child: const Icon(
-                  Icons.person,
-                  size: 30,
-                  color: Colors.white,
-                ),
+          Container(
+            width: 160,
+            height: 160,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFF4A90E2), width: 3),
+            ),
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/fat_donkey.jpg',
+                width: 160,
+                height: 160,
+                fit: BoxFit.cover,
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+          ),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                   'Hello, Oct10_115lb',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF4A90E2),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
-                    Text(
-                      'Hello, $name',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF4A90E2),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${height}cm, ${weight}lbs',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
-                    ),
+                    _buildTag('ENTJ', const Color(0xFFE8F4FD)),
+                    _buildTag('${height}cm, ${weight}lb', const Color(0xFFF0F0F0)),
+                    _buildTag('Aquarius', const Color(0xFFF0F0F0)),
+                    _buildTag('Single', const Color(0xFFF0F0F0)),
+                    _buildTag('Long-term', const Color(0xFFF0F0F0)),
                   ],
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              _buildTag('ENTJ', const Color(0xFFE8F4FD)),
-              const SizedBox(width: 8),
-              _buildTag('168 cm, 125 lbs', const Color(0xFFF0F0F0)),
-              const SizedBox(width: 8),
-              _buildTag('Aquarius', const Color(0xFFF0F0F0)),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              _buildTag('Single', const Color(0xFFF0F0F0)),
-              const SizedBox(width: 8),
-              _buildTag('Long-term', const Color(0xFFF0F0F0)),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -143,14 +136,16 @@ class DashboardScreen extends StatelessWidget {
         text,
         style: TextStyle(
           fontSize: 12,
-          color: backgroundColor == const Color(0xFFE8F4FD) ? const Color(0xFF4A90E2) : Colors.grey[700],
+          color: backgroundColor == const Color(0xFFE8F4FD)
+              ? const Color(0xFF4A90E2)
+              : Colors.grey[700],
           fontWeight: FontWeight.w500,
         ),
       ),
     );
   }
 
-  Widget _buildPledgeSection() {
+  Widget _buildPledgeSection(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -192,10 +187,19 @@ class DashboardScreen extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const Icon(
-                Icons.edit,
-                size: 20,
-                color: Colors.grey,
+              GestureDetector(
+                onTap: () {
+                  // TODO: Add edit functionality
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Edit pledge feature coming soon!'),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: const Icon(Icons.edit, size: 20, color: Colors.grey),
+                ),
               ),
             ],
           ),
@@ -234,11 +238,7 @@ class DashboardScreen extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            const Icon(
-              Icons.add,
-              color: Colors.grey,
-              size: 24,
-            ),
+            const Icon(Icons.add, color: Colors.grey, size: 24),
           ],
         ),
         const SizedBox(height: 16),
@@ -256,16 +256,47 @@ class DashboardScreen extends StatelessWidget {
           '4',
           const Color(0xFFFF5722),
           context,
+          isGroupChat: true,
+          groupChatType: 'weight-loss',
+        ),
+        const SizedBox(height: 12),
+        _buildChatItem(
+          'Fitness Motivation Squad',
+          'Who\'s joining me for morning workout?',
+          '2',
+          const Color(0xFF9C27B0),
+          context,
+          isGroupChat: true,
+          groupChatType: 'fitness',
         ),
       ],
     );
   }
 
-  Widget _buildChatItem(String name, String message, String count, Color avatarColor, BuildContext context) {
+  Widget _buildChatItem(
+    String name,
+    String message,
+    String count,
+    Color avatarColor,
+    BuildContext context, {
+    bool isGroupChat = false,
+    String? groupChatType,
+  }) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/chat'),
+      onTap: () {
+        if (isGroupChat) {
+          if (groupChatType == 'fitness') {
+            Navigator.pushNamed(context, '/fitness-chat');
+          } else {
+            Navigator.pushNamed(context, '/group-chat');
+          }
+        } else {
+          Navigator.pushNamed(context, '/chat');
+        }
+      },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: BoxDecoration(
           color: avatarColor.withOpacity(0.1),
           borderRadius: BorderRadius.circular(16),
@@ -279,11 +310,7 @@ class DashboardScreen extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: avatarColor,
               ),
-              child: const Icon(
-                Icons.person,
-                color: Colors.white,
-                size: 24,
-              ),
+              child: const Icon(Icons.person, color: Colors.white, size: 24),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -301,10 +328,7 @@ class DashboardScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     message,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                   ),
                 ],
               ),
@@ -333,86 +357,5 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavigation(BuildContext context) {
-    return Container(
-      height: 80,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildNavItem(Icons.home, 'Home', true, () {}),
-          _buildNavItem(Icons.restaurant, 'Meal', false, () => Navigator.pushNamed(context, '/meal')),
-          _buildNavItem(Icons.fitness_center, 'Workout', false, () => Navigator.pushNamed(context, '/workout')),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildNavItem(IconData icon, String label, bool isSelected, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 24,
-              height: 24,
-              child: Stack(
-                children: [
-                  Icon(
-                    icon,
-                    color: isSelected ? const Color(0xFF4A90E2) : Colors.grey,
-                    size: 24,
-                  ),
-                  if (label == 'Home' && isSelected)
-                    Positioned(
-                      top: -2,
-                      right: -2,
-                      child: Container(
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red,
-                        ),
-                        child: const Center(
-                          child: Text(
-                            '6',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 6,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                color: isSelected ? const Color(0xFF4A90E2) : Colors.grey,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

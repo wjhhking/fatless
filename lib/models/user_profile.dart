@@ -6,6 +6,8 @@ class UserProfile {
   final String name;
   final String age;
   final String gender;
+  final String mbti;
+  final String relationshipStatus;
   final List<String> exercisePreferences;
   final List<String> dietExperience;
   final List<String> quitReasons;
@@ -20,6 +22,8 @@ class UserProfile {
     required this.name,
     required this.age,
     required this.gender,
+    required this.mbti,
+    required this.relationshipStatus,
     required this.exercisePreferences,
     required this.dietExperience,
     required this.quitReasons,
