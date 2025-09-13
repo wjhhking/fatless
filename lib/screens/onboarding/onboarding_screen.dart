@@ -50,9 +50,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           },
           child: _currentStep < 3
             ? _buildIntroSection()
-            : _currentStep < 6
-              ? _buildQuestionSection()
-              : _buildTransitionSection(),
+            : _buildQuestionSection(),
         ),
       ),
     );
@@ -212,9 +210,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const SizedBox(),
                 ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      _currentStep++;
-                    });
+                    if (questionIndex == 2) {
+                      // Last question, navigate directly to survey
+                      _navigateToProfile();
+                    } else {
+                      setState(() {
+                        _currentStep++;
+                      });
+                    }
                   },
                   child: Text(questionIndex == 2 ? 'Continue' : 'Next'),
                 ),
@@ -226,54 +229,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildTransitionSection() {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.purple, Colors.deepPurple],
-        ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.stars,
-              color: Colors.white,
-              size: 100,
-            ),
-            const SizedBox(height: 40),
-            const Text(
-              "Let's get to know you better!",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 60),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/survey');
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.purple,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-              ),
-              child: const Text(
-                'Start Survey',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   void initState() {
@@ -291,5 +246,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     //     _startAutoProgression();
     //   }
     // });
+  }
+
+  void _navigateToProfile() {
+    // Pass the collected onboarding data to the profile screen
+    Navigator.pushReplacementNamed(
+      context,
+      '/survey',
+      arguments: {
+        'exercisePreferences': _selectedOptions[0],
+        'dietExperience': _selectedOptions[1],
+        'quitReasons': _selectedOptions[2],
+      },
+    );
   }
 }
