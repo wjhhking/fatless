@@ -32,6 +32,14 @@ class _UserSurveyScreenState extends State<UserSurveyScreen> {
   @override
   void initState() {
     super.initState();
+    // Set default values
+    _nameController.text = 'Cheryl';
+    _ageController.text = '18';
+    _heightController.text = '165';
+    _currentWeightController.text = '60';
+    _targetWeightController.text = '55';
+    _declarationController.text = 'Every time I crave for snacks, I will donate 5 dollars to Lay\'s as a tribute.';
+    
     // Get onboarding data from navigation arguments
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
