@@ -146,12 +146,12 @@ class _UserSurveyScreenState extends State<UserSurveyScreen> {
                     isNumber: false,
                   ),
                   _buildTextField(
-                    'Current Weight (kg)',
+                    'Current Weight (lb)',
                     _currentWeightController,
                     isNumber: true,
                   ),
                   _buildTextField(
-                    'Target Weight (kg)',
+                    'Target Weight (lb)',
                     _targetWeightController,
                     isNumber: true,
                   ),
