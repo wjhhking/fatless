@@ -44,18 +44,6 @@ class MessageBubbleWidget extends StatelessWidget {
       height: 32,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: message.isLoading 
-          ? null 
-          : (message.isError 
-            ? null 
-            : const LinearGradient(
-                colors: [Color(0xFF4DB6AC), Color(0xFF26A69A)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )),
-        color: message.isLoading 
-          ? Colors.grey[400] 
-          : (message.isError ? Colors.red[400] : null),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.15),
@@ -65,24 +53,42 @@ class MessageBubbleWidget extends StatelessWidget {
         ],
       ),
       child: message.isLoading 
-        ? const SizedBox(
-            width: 10,
-            height: 10,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ? Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey[400],
             ),
-          )
-        : const Center(
-            child: Text(
-              'D',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+            child: const SizedBox(
+              width: 10,
+              height: 10,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
             ),
-          ),
+          )
+        : message.isError
+          ? Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.red[400],
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.error,
+                  color: Colors.white,
+                  size: 16,
+                ),
+              ),
+            )
+          : ClipOval(
+              child: Image.asset(
+                'assets/images/daniel.png',
+                width: 32,
+                height: 32,
+                fit: BoxFit.cover,
+              ),
+            ),
     );
   }
 
@@ -92,11 +98,6 @@ class MessageBubbleWidget extends StatelessWidget {
       height: 32,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: const LinearGradient(
-          colors: [Color(0xFF4DB6AC), Color(0xFF26A69A)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF4DB6AC).withOpacity(0.3),
@@ -105,11 +106,12 @@ class MessageBubbleWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: const Center(
-        child: Icon(
-          Icons.person,
-          color: Colors.white,
-          size: 16,
+      child: ClipOval(
+        child: Image.asset(
+          'assets/images/fat_donkey.jpg',
+          width: 32,
+          height: 32,
+          fit: BoxFit.cover,
         ),
       ),
     );

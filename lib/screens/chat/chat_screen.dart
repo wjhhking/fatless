@@ -112,13 +112,13 @@ class _ChatScreenState extends State<ChatScreen> {
               height: 40,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color(0xFF66BB6A),
               ),
-              child: const Center(
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                  size: 20,
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/daniel.png',
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -154,7 +154,12 @@ class _ChatScreenState extends State<ChatScreen> {
               color: Color(0xFF00695C),
             ),
             child: IconButton(
-              icon: const Icon(Icons.star, color: Colors.white),
+              icon: Image.asset(
+                'assets/images/group_chat.png',
+                width: 24,
+                height: 24,
+                color: Colors.white,
+              ),
               onPressed: () {},
             ),
           ),

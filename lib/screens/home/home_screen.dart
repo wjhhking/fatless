@@ -110,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    _buildTag('ENTJ', const Color(0xFFE8F4FD)),
+                    _buildTag('ENFP', const Color(0xFFE8F4FD)),
                     _buildTag('${height}cm, ${weight}lb', const Color(0xFFF0F0F0)),
                     _buildTag('Aquarius', const Color(0xFFF0F0F0)),
                     _buildTag('Single', const Color(0xFFF0F0F0)),
@@ -309,9 +309,27 @@ class HomeScreen extends StatelessWidget {
               height: 48,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: avatarColor,
+                color: isGroupChat ? Colors.transparent : avatarColor,
               ),
-              child: const Icon(Icons.person, color: Colors.white, size: 24),
+              child: isGroupChat 
+                ? ClipOval(
+                    child: Image.asset(
+                      'assets/images/group_chat.png',
+                      width: 48,
+                      height: 48,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : (name.contains('Daniel')
+                    ? ClipOval(
+                        child: Image.asset(
+                          'assets/images/daniel.png',
+                          width: 48,
+                          height: 48,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : const Icon(Icons.person, color: Colors.white, size: 24)),
             ),
             const SizedBox(width: 12),
             Expanded(
