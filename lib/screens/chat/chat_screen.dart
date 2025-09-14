@@ -22,12 +22,19 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = [];
   final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   final String _selectedMood = 'neutral';
 
   @override
   void initState() {
     super.initState();
     _addWelcomeMessages();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   void _addWelcomeMessages() async {
@@ -71,6 +78,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ]);
     });
+    _scrollToBottom();
   }
 
   @override
@@ -156,6 +164,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           Expanded(
             child: ListView.builder(
+              controller: _scrollController,
               padding: const EdgeInsets.all(16),
               itemCount: _messages.length,
               itemBuilder: (context, index) {
@@ -178,12 +187,22 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
 
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
+    }
+  }
+
   void _sendQuickMessage(String mood) {
     final quickMessage = ChatPrompt.getQuickMessage(mood);
     _sendMessage(quickMessage);
   }
-
-
 
   IconData _getMoodIcon(String mood) {
     switch (mood) {
@@ -215,6 +234,7 @@ class _ChatScreenState extends State<ChatScreen> {
         timestamp: DateTime.now(),
       ));
     });
+    _scrollToBottom();
 
     // Add loading message
     setState(() {
@@ -225,6 +245,7 @@ class _ChatScreenState extends State<ChatScreen> {
         isLoading: true,
       ));
     });
+    _scrollToBottom();
 
     try {
       // Get AI response from OpenAI
@@ -241,6 +262,7 @@ class _ChatScreenState extends State<ChatScreen> {
           timestamp: DateTime.now(),
         ));
       });
+      _scrollToBottom();
     } catch (e) {
       setState(() {
         _messages.removeLast(); // Remove loading message
@@ -251,6 +273,7 @@ class _ChatScreenState extends State<ChatScreen> {
           isError: true,
         ));
       });
+      _scrollToBottom();
     }
   }
 }
