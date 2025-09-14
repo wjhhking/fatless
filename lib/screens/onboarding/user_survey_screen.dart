@@ -60,8 +60,8 @@ class _UserSurveyScreenState extends State<UserSurveyScreen> {
     _nameController.text = 'Cheryl';
     _ageController.text = '18';
     _heightController.text = '165';
-    _currentWeightController.text = '60';
-    _targetWeightController.text = '55';
+    _currentWeightController.text = '125';
+    _targetWeightController.text = '115';
     _declarationController.text =
         'Every time I crave for snacks, I will donate 5 dollars to Lay\'s as a tribute.';
 
