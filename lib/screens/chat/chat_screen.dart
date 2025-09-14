@@ -154,7 +154,6 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: [
-          _buildMoodIndicator(),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
@@ -175,22 +174,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildMoodIndicator() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: Colors.blue[50],
-      child: Row(
-        children: [
-          Icon(_getMoodIcon(_selectedMood), color: Colors.blue),
-          const SizedBox(width: 8),
-          Text(
-            'Daniel is ready to $_selectedMood you',
-            style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
-          ),
-        ],
-      ),
-    );
-  }
+
 
 
 

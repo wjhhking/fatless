@@ -63,7 +63,7 @@ class _MealScreenState extends State<MealScreen> with TickerProviderStateMixin {
               // Craving Question Section
               const SizedBox(height: 10),
               const Text(
-                'Starting or Craving?',
+                'Starving or Craving?',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w600,

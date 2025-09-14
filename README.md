@@ -1,6 +1,6 @@
 # Fatless
 
-A Flutter fitness tracking app.
+An AI-powered emotional support companion for sustainable weight loss.
 
 ## Overview
 

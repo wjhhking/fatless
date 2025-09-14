@@ -22,7 +22,12 @@ class MessageBubbleWidget extends StatelessWidget {
             const SizedBox(width: 12),
           ],
           Flexible(
-            child: _buildMessageContainer(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.75,
+              ),
+              child: _buildMessageContainer(),
+            ),
           ),
           if (message.isUser) ...[
             const SizedBox(width: 8),

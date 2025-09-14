@@ -3,6 +3,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class Config {
   // OpenAI Configuration
   static String get openaiApiKey {
+    // First try dart-define (for production builds)
+    const dartDefineKey = String.fromEnvironment('OPENAI_API_KEY');
+    if (dartDefineKey.isNotEmpty) {
+      return dartDefineKey;
+    }
+    // Fallback to .env file (for development)
     return dotenv.env['OPENAI_API_KEY'] ?? 'YOUR_OPENAI_API_KEY_HERE';
   }
   
