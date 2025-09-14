@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:video_player/video_player.dart';
 import '../../services/user_service.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -16,6 +18,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   bool _showTransitionBackground = false;
   bool _hideButtons = false;
   String _currentBackgroundImage = '';
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  late VideoPlayerController _transitionVideoController;
 
   final List<String> _introTexts = [
     "Is this you when stepping on the scale?",
@@ -140,6 +144,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                     return GestureDetector(
                       onTap: () async {
+                        // Play camera capture sound
+                        try {
+                          await _audioPlayer.play(AssetSource('sound/camera-capture.mp3'));
+                        } catch (e) {
+                          print('Error playing audio: $e');
+                        }
+                        
                         setState(() {
                           if (isSelected) {
                             _selectedOptions[_currentStep].remove(option);
@@ -247,7 +258,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               _hideButtons = true;
                               _showTransitionBackground = true;
                             });
-                            await Future.delayed(const Duration(seconds: 1));
+                            
+                            // Play transition video
+                            try {
+                              await _transitionVideoController.seekTo(Duration.zero);
+                              await _transitionVideoController.play();
+                              
+                              // Wait for video to complete (4 seconds)
+                              await Future.delayed(const Duration(seconds: 4));
+                            } catch (e) {
+                              print('Error playing transition video: $e');
+                              // Fallback delay if video fails
+                              await Future.delayed(const Duration(seconds: 1));
+                            }
+                            
                             _navigateToProfile();
                           } else if (_currentStep == 2) {
                             setState(() {
@@ -323,7 +347,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
+    _initializeTransitionVideo();
     _startAutoProgression();
+  }
+
+  Future<void> _initializeTransitionVideo() async {
+    try {
+      _transitionVideoController = VideoPlayerController.asset('assets/videos/Transition_voice-4s.mov');
+      await _transitionVideoController.initialize();
+      _transitionVideoController.setLooping(false);
+    } catch (e) {
+      print('Error initializing transition video: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    _transitionVideoController.dispose();
+    super.dispose();
   }
 
   void _startAutoProgression() {

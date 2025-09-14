@@ -21,9 +21,9 @@ class _VideoSplashScreenState extends State<VideoSplashScreen> {
   Timer? _transitionTimer;
 
   final List<String> _texts = [
-    'Is this you when stepping on the scale?',
-    'Don\'t obsess over weights calories',
-    'We care all about YOU'
+    'Is this you when\nstepping on the scale?',
+    'Don\'t obsess over\nweights calories',
+    'We care all about\nYOU'
   ];
 
   final List<int> _textDurations = [3, 3, 4]; // seconds
@@ -254,27 +254,27 @@ class _VideoSplashScreenState extends State<VideoSplashScreen> {
                 ),
               ),
             
-            // Text overlay - positioned over centered video (shown after interaction)
+            // Text overlay - positioned in the center of the screen (shown after interaction)
             if (_hasUserInteracted)
-              Positioned(
-                bottom: screenSize.height * 0.15, // Responsive positioning
-                left: screenSize.width * 0.1,
-                right: screenSize.width * 0.1,
-                child: Text(
-                  _currentText.isEmpty ? 'Loading...' : _currentText,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                        offset: Offset(1, 1),
-                        blurRadius: 3,
-                        color: Colors.black,
-                      ),
-                    ],
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
+                  child: Text(
+                    _currentText.isEmpty ? 'Loading...' : _currentText,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          offset: Offset(1, 1),
+                          blurRadius: 3,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             

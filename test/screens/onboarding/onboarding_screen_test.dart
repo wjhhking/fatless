@@ -61,14 +61,16 @@ void main() {
       // Find and tap on 'Eating' option
       final eatingOption = find.text('Eating');
       await tester.tap(eatingOption);
-      await tester.pumpAndSettle(const Duration(seconds: 2)); // Wait for background animation
+      await tester.pump(); // Trigger the state change
+      await tester.pump(const Duration(milliseconds: 300)); // Wait for animation
 
-      // Verify the option is selected (check icon appears)
-      expect(find.byIcon(Icons.check), findsOneWidget);
+      // Verify check icon appears
+        expect(find.byIcon(Icons.check), findsOneWidget);
 
       // Tap again to deselect
       await tester.tap(eatingOption);
-      await tester.pumpAndSettle(const Duration(seconds: 2)); // Wait for background animation
+      await tester.pump(); // Trigger the state change
+      await tester.pump(const Duration(milliseconds: 300)); // Wait for animation
 
       // Verify the option is deselected (check icon disappears)
       expect(find.byIcon(Icons.check), findsNothing);
@@ -145,9 +147,8 @@ void main() {
 
       // Tap on an option in the first question
       await tester.tap(find.text('Eating'));
-      
-      // Wait for the background animation (1 second delay in the code)
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      await tester.pump(); // Trigger the state change
+      await tester.pump(const Duration(milliseconds: 300)); // Wait for animation
 
       // The background change is internal state, so we verify the option is selected
       expect(find.byIcon(Icons.check), findsOneWidget);
@@ -159,9 +160,11 @@ void main() {
 
       // Select multiple options
       await tester.tap(find.text('Eating'));
-      await tester.pumpAndSettle(const Duration(seconds: 2)); // Wait for background animation
+      await tester.pump(); // Trigger the state change
+      await tester.pump(const Duration(milliseconds: 300)); // Wait for animation
       await tester.tap(find.text('Exercise'));
-      await tester.pumpAndSettle(const Duration(seconds: 2)); // Wait for background animation
+      await tester.pump(); // Trigger the state change
+      await tester.pump(const Duration(milliseconds: 300)); // Wait for animation
 
       // Verify both options are selected
       expect(find.byIcon(Icons.check), findsNWidgets(2));
@@ -195,7 +198,8 @@ void main() {
 
       // Select an option in first question
       await tester.tap(find.text('Eating'));
-      await tester.pumpAndSettle(const Duration(seconds: 2)); // Wait for background animation
+      await tester.pump(); // Trigger the state change
+      await tester.pump(const Duration(milliseconds: 300)); // Wait for animation
       expect(find.byIcon(Icons.check), findsOneWidget);
 
       // Navigate to second question
